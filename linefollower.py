@@ -14,6 +14,8 @@ led1 = pyb.LED(1)
 led2 = pyb.LED(2)
 led3 = pyb.LED(3)
 color_threshold = (42, 93, -58, -27, 11, 56)
+color_threshold2 =(56, 80, -32, -17, 17, 43)
+color_threshold3 =(9, 100, -127, -15, 5, 127)
 
 clock = time.clock()
 
@@ -22,7 +24,7 @@ while True:
     led2.on()
     led3.on()
     img = sensor.snapshot()
-    blobs = img.find_blobs([color_threshold], pixels_threshold=200, merge=True)
+    blobs = img.find_blobs([color_threshold3], pixels_threshold=200, merge=True)
     for blob in blobs:
         #img.draw_rectangle(blob.rect())
         position = blob.cx()
@@ -31,9 +33,9 @@ while True:
 
         print(position)
     if len(blobs) ==0:
-        position= 99999
+        position= 999
     clock.tick()
     #print(clock.fps())
     print(position)
     uart.write(str(position)+"\n")
-    time.sleep(500)
+    time.sleep(100)

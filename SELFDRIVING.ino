@@ -24,7 +24,8 @@ float Kd = 0.5;
 
 int offset = 0;
 int calcoffset = 0;
-int baseSpeed = 180;
+int baseSpeed = 150;
+int speedDiff=0;
 
 boolean links = true;
 
@@ -81,47 +82,53 @@ void loop() {
     
     Serial.println("--------------------line not found-----------------------------");
 
-    if (links) {
-      leftMotor(255);
-      rightMotor(120);
-    } else {
-      leftMotor(120);
-      rightMotor(255);
-    }
+//    if (links) {
+//      leftMotor(255);
+//      rightMotor(120);
+//    } else {
+//      leftMotor(120);
+//      rightMotor(255);
+//    }
 
- 
+ leftMotor(0);  
+ rightMotor(0);
 
   } else {
 
-    Serial.println("--------------------forward-----------------------------");
-    Serial.println(calcoffset);
+//    Serial.println("--------------------forward-----------------------------");
+    
 
 
     if (calcoffset >= 0) {
+          Serial.println("--------------------Links-----------------------------");
 
       //to the left
       speedLinks = map(-calcoffset, 0, 160, baseSpeed, maxSpeed);
-
-      speedRechts = baseSpeed;
+      speedRechts = map(-calcoffset, 160, 0, baseSpeed, baseSpeed);
+      //speedRechts = baseSpeed;
       links = true;
+      
 
     } else {
-
+    Serial.println("--------------------Rechts-----------------------------");
       //to the right
       speedRechts = map(calcoffset, 0, 160, baseSpeed, maxSpeed);
-      speedLinks = baseSpeed;
+      speedLinks = map(calcoffset, 160, 0, baseSpeed, baseSpeed);
+    //  speedLinks = baseSpeed;
       links = false;
+      
     }
 
+  
 
 
+   
+    
     Serial.print("SpeedLinks"); Serial.println(speedLinks);
     Serial.print("SpeedRechts"); Serial.println(speedRechts);
 
-
-
-
-
+    
+  
     leftMotor(constrain(speedRechts, 0, 255));
     rightMotor(constrain(speedLinks, 0, 255));
   }
@@ -129,7 +136,33 @@ void loop() {
 
 }
 
+//int  leftBoost(int l,int r,int co){
+//  int range = calculateBoostLeft;
+//  int realBoost = ;
+//
+//  return boostValue;
+//  }
+//
+//
+//int  leftBoost(int l,int r,int co){
+//  
+//
+//  return boostValue;
+//  }
 
+
+int calculateBoostLeft(int l){
+  int remL = 255 - l;
+
+
+  return remL;
+  }
+
+int calcualteBoostRight(int r){
+   int remR = 255 - speedRechts;
+  return remR;
+  
+  }
 
 
 void leftMotor(int motorSpeed) { // this drives the motor
